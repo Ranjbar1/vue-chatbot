@@ -1,0 +1,82 @@
+<script>
+export default {
+  name: "App",
+  data() {
+    return {
+      messages: [],
+      connection: null,
+    };
+  },
+  created() {
+    this.connection = new WebSocket("ws://echo.websocket.org");
+    this.connection.onopen = () => {
+      console.log("Connection established!");
+    };
+    this.connection.onmessage = (event) => {
+      console.log(event.data);
+    };
+
+    this.connection.onerror = (error) => {
+      console.log(error);
+    };
+  },
+  methods: {
+    sendMessage(message) {
+      console.log(message);
+      this.connection.send(message);
+      this.messages.push(message);
+    },
+    onReset() {
+      this.messages = [];
+      this.connection.close();
+    },
+  },
+};
+</script>
+
+<template>
+  <div class="container">
+    <h1>WebSocket</h1>
+    <input type="text" v-model="message" @keyup.enter="sendMessage(message)" />
+    <div class="buttons">
+      <button @click="sendMessage(message)">Send</button>
+      <button @click="onReset">Reset</button>
+    </div>
+    <br />
+    <ul>
+      <li v-for="message in messages">{{ message }}</li>
+    </ul>
+  </div>
+</template>
+<style>
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+input {
+  width: 50%;
+}
+button {
+  all: unset;
+  border: 1px solid #ccc;
+  padding: 0.5em 1em;
+  margin: 0.5em;
+
+  margin-top: 10px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
