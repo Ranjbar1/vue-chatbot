@@ -27,11 +27,9 @@ export default {
       console.log(message);
       this.connection.send(message);
       this.messages.push(message);
-      return message;
     },
     onReset() {
       this.messages = [];
-      this.s
       this.connection.close();
     },
   },
