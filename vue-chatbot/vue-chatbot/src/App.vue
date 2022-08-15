@@ -9,6 +9,7 @@ export default {
   },
   created() {
     this.connection = new WebSocket("ws://echo.websocket.org");
+
     this.connection.onopen = () => {
       console.log("Connection established!");
     };
@@ -26,9 +27,11 @@ export default {
       console.log(message);
       this.connection.send(message);
       this.messages.push(message);
+      return message;
     },
     onReset() {
       this.messages = [];
+      this.s
       this.connection.close();
     },
   },
@@ -67,7 +70,7 @@ export default {
 input {
   min-width: 300px;
   height: 30px;
-
+  all: inherit;
   background-color: rgb(178, 253, 253);
   border: 2px solid rgb(17, 67, 231);
   border-radius: 5px;
