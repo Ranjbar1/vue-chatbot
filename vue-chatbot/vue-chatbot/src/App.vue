@@ -14,6 +14,7 @@ export default {
     };
     this.connection.onmessage = (event) => {
       console.log(event.data);
+      this.messages.push(event.data);
     };
 
     this.connection.onerror = (error) => {
